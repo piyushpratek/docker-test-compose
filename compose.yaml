@@ -1,0 +1,21 @@
+services:
+  server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: server
+    ports:
+      - 4000:4000
+    # env_file:
+    # - ./ecommerce-backend/.env.development
+    environment:
+      - NODE_ENV=development
+      - MONGO_URI=mongodb://admin:password@mongodb
+      - REDIS_URI=redis://redis
+    develop:
+      watch:
+        - path: ./backend/package*.json
+          action: rebuild
+        - path: ./backend
+          target: /app
+          action: sync
